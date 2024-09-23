@@ -4,9 +4,13 @@ import { Router,Response,Request } from "express";
 import { CreateUserController } from "./controller/user/CreateUserController";
 import { AuthUserController } from "./controller/user/AuthUserController";
 import { DetailsUserController } from "./controller/user/DetailsUserController";
+import { UpdateUserController } from "./controller/user/UpdateUserController";
 
 //- Import de Autenticação -//
-import { isAuthenticated} from "./middlewares/IsAuthenticated";
+import { isAuthenticated} from "./middlewares/isAuthenticated";
+
+//- Rotas de Cortes -//
+import { CreateHaircutController } from "./controller/haircut/CreateHaircutController";
 
 const router = Router()
 
@@ -20,7 +24,10 @@ router.get("/teste",(req:Request,res:Response)=>{
 router.post('/users',new CreateUserController().handle)
 router.post('/session',new AuthUserController().handle) 
 router.get('/me',isAuthenticated,new DetailsUserController().handle) 
+router.put('/meupdate',isAuthenticated,new UpdateUserController().handle) 
 
 
+// -- ROTAS HAIRCUT --//
 
+router.post('/haircut',isAuthenticated,new CreateHaircutController().handle) 
 export {router}
