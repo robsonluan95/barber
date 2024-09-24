@@ -11,6 +11,8 @@ import { isAuthenticated} from "./middlewares/isAuthenticated";
 
 //- Rotas de Cortes -//
 import { CreateHaircutController } from "./controller/haircut/CreateHaircutController";
+import { ListHaircutController } from "./controller/haircut/ListHaircutController";
+import { UpdateHaircutController } from "./controller/haircut/UpdateHaircutController";
 
 const router = Router()
 
@@ -28,6 +30,8 @@ router.put('/meupdate',isAuthenticated,new UpdateUserController().handle)
 
 
 // -- ROTAS HAIRCUT --//
-
 router.post('/haircut',isAuthenticated,new CreateHaircutController().handle) 
+router.get('/haircut',isAuthenticated,new ListHaircutController().handle) 
+router.put('/haircut',isAuthenticated,new UpdateHaircutController().handle) 
+
 export {router}
