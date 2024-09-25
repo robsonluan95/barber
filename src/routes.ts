@@ -14,9 +14,13 @@ import { CreateHaircutController } from "./controller/haircut/CreateHaircutContr
 import { ListHaircutController } from "./controller/haircut/ListHaircutController";
 import { UpdateHaircutController } from "./controller/haircut/UpdateHaircutController";
 import { CheckSubscriptionController } from "./services/CheckSubscription/CheckSubscriptionService";
+import { CountHaircutController } from "./controller/haircut/CountHaircutController";
+import { DetailsHaircutController } from "./controller/haircut/DetailsHaircutController";
+
+// -- ROTAS SCHEDULE / SERVIÇOS --//
+import { NewScheduleController } from "./controller/schedule/NewScheduleController"
 
 const router = Router()
-
 
 
 //- Rota Teste -//
@@ -24,6 +28,7 @@ const router = Router()
 router.get("/teste",(req:Request,res:Response)=>{
     return res.json({ok:true})
 })
+
 
 //--- ROTAS USER ---//
 router.post('/users',new CreateUserController().handle)
@@ -37,6 +42,13 @@ router.post('/haircut',isAuthenticated,new CreateHaircutController().handle)
 router.get('/haircut',isAuthenticated,new ListHaircutController().handle) 
 router.put('/haircut',isAuthenticated,new UpdateHaircutController().handle) 
 router.get('/haircut/check',isAuthenticated,new CheckSubscriptionController().handle) 
+router.get('/haircut/count',isAuthenticated,new CountHaircutController().handle)
+router.get('/haircut/details',isAuthenticated,new DetailsHaircutController().handle)
+
+
+// -- ROTAS SCHEDULE / SERVIÇOS --//
+
+router.post('/schedule',isAuthenticated,new NewScheduleController().handle)
 
 
 export {router}
