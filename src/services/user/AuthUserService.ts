@@ -19,7 +19,7 @@ class AuthUserService{
         throw new Error('Usuário não encontrado')
       }
       //verificar se temos a senha 
-      const passwordMatch = await compare(password,user?.password)
+      const passwordMatch = await compare(password,user.password)
       if(!passwordMatch){
         throw new Error("Email/password incorretos")
       }
