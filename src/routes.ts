@@ -37,7 +37,7 @@ router.post('/users',new CreateUserController().handle)
 router.post('/session',new AuthUserController().handle) 
 router.get('/me',isAuthenticated,new DetailsUserController().handle) 
 router.put('/meupdate',isAuthenticated,new UpdateUserController().handle) 
-
+router.put('/meupdate2',isAuthenticated,new UpdateUserController().handle) 
 
 // -- ROTAS HAIRCUT --//
 router.post('/haircut',isAuthenticated,new CreateHaircutController().handle) 
@@ -48,7 +48,7 @@ router.get('/haircut/count',isAuthenticated,new CountHaircutController().handle)
 router.get('/haircut/details',isAuthenticated,new DetailsHaircutController().handle)
 
 
-// -- ROTAS SCHEDULE / SERVIÇOS --//
+// -- ROTAS SCHEDULE / SERVIÇOS --///
 
 router.post('/schedule',isAuthenticated,new NewScheduleController().handle)
 router.get('/schedule',isAuthenticated,new ListScheduleController().handle)
