@@ -37,7 +37,6 @@ router.post('/users',new CreateUserController().handle)
 router.post('/session',new AuthUserController().handle) 
 router.get('/me',isAuthenticated,new DetailsUserController().handle) 
 router.put('/meupdate',isAuthenticated,new UpdateUserController().handle) 
-router.put('/meupdate2',isAuthenticated,new UpdateUserController().handle) 
 
 // -- ROTAS HAIRCUT --//
 router.post('/haircut',isAuthenticated,new CreateHaircutController().handle) 

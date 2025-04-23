@@ -11,7 +11,7 @@ export class CreateHaircutServices{
 
 
     async execute({user_id,name,price}:createHairCut){
-        console.log(user_id,name,price)
+        
 
         if(!name||!price){
             throw new Error("Erro ao cadastrar, nome ou preço invalido ")
@@ -22,6 +22,7 @@ export class CreateHaircutServices{
                 user_id:user_id
             }}
         )
+        
 
         const user = await prismaClient.user.findFirst({
             where:{
@@ -31,12 +32,12 @@ export class CreateHaircutServices{
                 subscriptions:true
             }
         })
-
+        
         // Criamos nossa validação e limite
-        if(myHaircuts>=2 && user?.subscriptions?.status!=="active"){
+        if(myHaircuts>=5 && user?.subscriptions?.status!=="active"){
             throw new Error("Você já tem 5 cortes, não pode criar mais")
         }
-
+        console.log(user_id,name,price)
         const haircut = await prismaClient.haircut.create({
             data:{
                 name,

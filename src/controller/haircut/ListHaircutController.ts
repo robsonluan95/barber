@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { ListHaircutService } from "../../services/haircut/listHaircutService";
+import { ListHaircutService } from "../../services/haircut/ListHaircutService";
 
 
 export class ListHaircutController{
