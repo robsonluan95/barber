@@ -28,6 +28,7 @@ export class UpdatedUserServices{
                 },
                 select:{
                     name:true,
+                    email:true,
                     endereco:true,
 
                 }
