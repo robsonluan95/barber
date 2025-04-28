@@ -4,7 +4,7 @@ interface HaircutRequest{
     user_id:string;
     haircut_id: string;
     name: string;
-    price:number;
+    price:float;
     status:boolean|string
 
 
