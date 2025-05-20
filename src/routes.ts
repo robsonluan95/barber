@@ -22,6 +22,8 @@ import { NewScheduleController } from "./controller/schedule/NewScheduleControll
 import { ListScheduleController } from "./controller/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controller/schedule/FinishScheduleController";
 
+import { SubscribeController } from "./controller/subscriptions/SubscribeController";
+
 const router = Router()
 
 
@@ -52,5 +54,9 @@ router.get('/haircut/details',isAuthenticated,new DetailsHaircutController().han
 router.post('/schedule',isAuthenticated,new NewScheduleController().handle)
 router.get('/schedule',isAuthenticated,new ListScheduleController().handle)
 router.delete('/schedule',isAuthenticated,new FinishScheduleController().handle)
+
+
+// -- ROTAS PAGAMENTOS / SERVIÇOS --///
+router.post('/subscribe',isAuthenticated,new SubscribeController().handle)
 
 export {router}
