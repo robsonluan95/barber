@@ -1,6 +1,6 @@
 import prismaClient from "../../prisma";
 import Stripe from "stripe";
-
+import {stripe} from '../../utils/stripe'
 
 interface SubscribeRequest{
     user_id:string;
@@ -8,7 +8,7 @@ interface SubscribeRequest{
 
 class SubscribeService{
     async execute({user_id}:SubscribeRequest){
-        const stripe = new Stripe(
+        const stripe2 = new Stripe( 
             process.env.STRIPE_API_KEY,
             {
                 apiVersion: "2025-04-30.basil",
@@ -35,8 +35,36 @@ class SubscribeService{
                 email:findUser.email
             })
 
+            await prismaClient.user.update({
+                where:{
+                    id:user_id
+                },
+                data:{
+                    stripe_customer_id:stripeCustomer.id
+                }
+            })
+            console.log(stripeCustomer)
+
+            customerID = stripeCustomer.id;
 
         }
+
+        //inicializar o nosso checkout de pagamento
+        const stripeCheckoutSession = await stripe.checkout.sessions.create({
+            customer:customerID,
+            payment_method_types:['card'],
+            billing_address_collection:'required',
+            line_items:[
+                {price:process.env.STRIPE_PRICE,quantity:1}
+            ],
+            mode:'subscription',
+            allow_promotion_codes:true,
+            success_url:process.env.STRIPE_SUCCESS_URL,
+            cancel_url:process.env.STRIPE_CANCEL_URL,
+
+        })
+        return {sessionId:stripeCheckoutSession.id}
+        
     }
 }
 
