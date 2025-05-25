@@ -22,6 +22,8 @@ import { NewScheduleController } from "./controller/schedule/NewScheduleControll
 import { ListScheduleController } from "./controller/schedule/ListScheduleController";
 import { FinishScheduleController } from "./controller/schedule/FinishScheduleController";
 
+// -- ROTAS PAGAMENTOS / SERVIÇOS --///
+import { WebHooksController } from './controller/subscriptions/WebHooksController'
 import { SubscribeController } from "./controller/subscriptions/SubscribeController";
 
 const router = Router()
@@ -58,5 +60,6 @@ router.delete('/schedule',isAuthenticated,new FinishScheduleController().handle)
 
 // -- ROTAS PAGAMENTOS / SERVIÇOS --///
 router.post('/subscribe',isAuthenticated,new SubscribeController().handle)
+router.post('/webhooks',new WebHooksController().handle)
 
 export {router}

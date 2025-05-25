@@ -26,7 +26,7 @@ class SubscribeService{
                 id:user_id
             }
         })
-
+        
         let customerID = findUser?.stripe_customer_id;
         
         if(!customerID){
@@ -43,8 +43,6 @@ class SubscribeService{
                     stripe_customer_id:stripeCustomer.id
                 }
             })
-            console.log(stripeCustomer)
-
             customerID = stripeCustomer.id;
 
         }
