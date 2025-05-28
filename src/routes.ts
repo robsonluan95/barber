@@ -1,4 +1,4 @@
-import { Router,Response,Request } from "express";
+import express ,{ Router,Response,Request } from "express";
 
 //- Import de Usuário-//
 import { CreateUserController } from "./controller/user/CreateUserController";
@@ -25,6 +25,8 @@ import { FinishScheduleController } from "./controller/schedule/FinishScheduleCo
 // -- ROTAS PAGAMENTOS / SERVIÇOS --///
 import { WebHooksController } from './controller/subscriptions/WebHooksController'
 import { SubscribeController } from "./controller/subscriptions/SubscribeController";
+import {CreatePortalController} from './controller/subscriptions/CreatePortalController'
+
 
 const router = Router()
 
@@ -60,6 +62,7 @@ router.delete('/schedule',isAuthenticated,new FinishScheduleController().handle)
 
 // -- ROTAS PAGAMENTOS / SERVIÇOS --///
 router.post('/subscribe',isAuthenticated,new SubscribeController().handle)
-router.post('/webhooks',new WebHooksController().handle)
+router.post('/webhooks', express.raw({ type: 'application/json' }), new WebHooksController().handle)
+router.post('/create-portal',isAuthenticated, new CreatePortalController().handle)
 
 export {router}

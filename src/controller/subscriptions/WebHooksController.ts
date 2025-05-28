@@ -1,34 +1,30 @@
-import {Request,Response} from 'express';
+import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import {stripe} from '../../utils/stripe'
-import { saveSubscription } from '../../utils/manageSubscription ';
+import { stripe } from '../../utils/stripe'
+import { saveSubscription } from '../../utils/manageSubscription';
 
-class WebHooksController{
-    async handle(req:Request,res:Response){
+class WebHooksController {
+    async handle(req: Request, res: Response) {
         //Aqui estamos recebendo a resposta enviada pelo Stripe -> 
-        let event : Stripe.Event = req.body
+        let event: Stripe.Event = req.body
+        const signature = req.headers['stripe-signature']
 
-        let endpointSecret : string = process.env.STRIPE_WEB_SECRET as string
+        let endpointSecret = process.env.STRIPE_WEB_SECRET
 
-        if (endpointSecret){
-            const signature = req.headers['stripe-signature']
-            try{
 
-                //validando nossa assinatura 
-                event = stripe.webhooks.constructEvent(
-                    req.body,
-                    signature,
-                    endpointSecret
-                )
+        try {
 
-            }catch(err){
-                console.log("Webhook signature falid", err.message)
-            }
+            //validando nossa assinatura 
+            event = stripe.webhooks.constructEvent(req.body,signature,endpointSecret)
+
+        } catch (err) {
+            return res.status(400).send(`Webhoohs erro: ${err}`)
         }
 
 
-         switch(event.type){
-            
+
+        switch (event.type) {
+
             case 'customer.subscription.deleted':
                 //caso cliente cancele a sua assinatura 
 
@@ -41,7 +37,7 @@ class WebHooksController{
                     true
                 )
 
-            break;
+                break;
             case 'customer.subscription.updated':
                 //caso ele precise atualizar 
 
@@ -50,14 +46,14 @@ class WebHooksController{
                 await saveSubscription(
                     paymentIntent.id,
                     paymentIntent.customer.toString(),
-                    false,false
+                    false, false
                 )
 
-            break;
+                break;
             case 'checkout.session.completed':
                 //caso ele finalize a compra
                 const checkoutSession = event.data.object as Stripe.Checkout.Session;
-                
+
                 await saveSubscription(
                     checkoutSession.subscription.toString(),
                     checkoutSession.customer.toString(),
@@ -65,14 +61,14 @@ class WebHooksController{
                 )
 
 
-            break;
+                break;
             default:
                 console.log(`Unhandled event type ${event.type}`)
-         }
+        }
 
-         res.send()
+        res.send()
 
     }
 }
 
-export {WebHooksController}
+export { WebHooksController }
